@@ -42,89 +42,101 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     selectedLanguage = context.locale.languageCode;
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: SafeArea(
-          child: Form(
-            key: formKey,
-            child: Column(
-              children: [
-                Image.asset(AssetsManager.logo),
-                SizedBox(
-                  height: 24,
-                ),
-                CustomField(
-                  hint: "email".tr(),
-                  prefix: AssetsManager.email,
-                  controller: emailController,
-                  validation: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Email shouldn't be empty";
-                    }
-                    var regex = RegExp(emailRegex);
-                    if (!regex.hasMatch(value)) {
-                      return "Email isn't valid";
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                CustomField(
-                  controller: passwordController,
-                  validation: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Password shouldn't be empty";
-                    }
-                    if (value.length < 8) {
-                      return "Password shouldn't be less than 8";
-                    }
-                    return null;
-                  },
-                  hint: "pass".tr(),
-                  prefix: AssetsManager.lock,
-                  isPassword: true,
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Align(
-                  alignment: AlignmentDirectional.centerEnd,
-                  child: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "forgotPass".tr(),
-                        style: Theme.of(context).textTheme.titleSmall,
-                      )),
-                ),
-                SizedBox(
-                  height: 24,
-                ),
-                CustomButton(
-                    title: "login".tr(),
-                    onPress: () {
-                      if (formKey.currentState?.validate() ?? false) {
-                        signin();
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: SafeArea(
+            child: Form(
+              key: formKey,
+              child: Column(
+                children: [
+                  Image.asset(AssetsManager.logo),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  CustomField(
+                    hint: "email".tr(),
+                    prefix: AssetsManager.email,
+                    controller: emailController,
+                    validation: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Email shouldn't be empty";
                       }
-                    }),
-                SizedBox(height: 24,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("dontHaveAccount".tr(),style: Theme.of(context).textTheme.bodyMedium,),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, RoutesManager.register);
-                      },
-                      child: Text("createAcc".tr(),style:Theme.of(context).textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w500
-                      ) ,),
-                    )
-                  ],
-                ),
-                SizedBox(height: 24,),
-                CustomSwitch(
+                      var regex = RegExp(emailRegex);
+                      if (!regex.hasMatch(value)) {
+                        return "Email isn't valid";
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  CustomField(
+                    controller: passwordController,
+                    validation: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Password shouldn't be empty";
+                      }
+                      if (value.length < 8) {
+                        return "Password shouldn't be less than 8";
+                      }
+                      return null;
+                    },
+                    hint: "pass".tr(),
+                    prefix: AssetsManager.lock,
+                    isPassword: true,
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "forgotPass".tr(),
+                          style: Theme.of(context).textTheme.titleSmall,
+                        )),
+                  ),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  CustomButton(
+                      title: "login".tr(),
+                      onPress: () {
+                        if (formKey.currentState?.validate() ?? false) {
+                          signin();
+                        }
+                      }),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "dontHaveAccount".tr(),
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, RoutesManager.register);
+                        },
+                        child: Text(
+                          "createAcc".tr(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall
+                              ?.copyWith(fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  CustomSwitch(
                     selected: selectedLanguage,
                     icon2: AssetsManager.eg,
                     icon1: AssetsManager.us,
@@ -132,28 +144,27 @@ class _LoginScreenState extends State<LoginScreen> {
                       setState(() {
                         selectedLanguage = value;
                       });
-                      if(selectedLanguage=="ar"){
+                      if (selectedLanguage == "ar") {
                         context.setLocale(Locale("ar"));
-                      }else{
+                      } else {
                         context.setLocale(Locale("en"));
                       }
                     },
-                    values: ["en","ar"]
-                )
-
-              ],
+                    values: ["en", "ar"],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
   }
-  signin()async{
+
+  signin() async {
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text
-      );
+          email: emailController.text, password: passwordController.text);
       print(credential.user!.uid);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

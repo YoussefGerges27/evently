@@ -32,7 +32,7 @@ class CustomSwitch extends StatelessWidget {
         spacing: 16,
         iconOpacity: 1,
         style: ToggleStyle(
-          backgroundColor: Colors.transparent,
+            backgroundColor: Colors.transparent,
             indicatorColor: ColorsManager.primaryColor,
             borderColor: ColorsManager.primaryColor,
             indicatorBorderRadius: BorderRadius.circular(20)),
@@ -42,18 +42,24 @@ class CustomSwitch extends StatelessWidget {
             height: 30,
             width: 30,
             colorFilter: isColored
-                ?ColorFilter.mode(selected=="light"
-                ?Colors.white:ColorsManager.primaryColor, BlendMode.srcIn)
-                :null,
+                ? ColorFilter.mode(
+                    selected == "light"
+                        ? Colors.white
+                        : ColorsManager.primaryColor,
+                    BlendMode.srcIn)
+                : null,
           ),
           SvgPicture.asset(
             icon2,
             height: 30,
             width: 30,
             colorFilter: isColored
-                ?ColorFilter.mode(selected=="dark"
-                ?Colors.white:ColorsManager.primaryColor, BlendMode.srcIn)
-                :null,
+                ? ColorFilter.mode(
+                    selected == "dark"
+                        ? Colors.white
+                        : ColorsManager.primaryColor,
+                    BlendMode.srcIn)
+                : null,
           ),
         ],
       ),

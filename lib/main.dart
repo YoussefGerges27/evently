@@ -19,7 +19,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(EasyLocalization(
+  runApp(
+    EasyLocalization(
       supportedLocales: [
         Locale("en"),
         Locale("ar"),
@@ -29,7 +30,11 @@ void main() async {
       fallbackLocale: Locale('en'),
       startLocale: Locale("en"),
       child: ChangeNotifierProvider(
-          create: (context) => ThemeProvider()..init(), child: MyApp())));
+        create: (context) => ThemeProvider()..init(),
+        child: MyApp(),
+      ),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

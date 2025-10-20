@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class PrefsManager{
+class PrefsManager {
   static late SharedPreferences sharedPreferences;
-  static int()async{
+  static int() async {
     sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  static setTheme(ThemeMode mode){
-    sharedPreferences.setString("theme",mode==ThemeMode.dark?"dark": "light");
+  static setTheme(ThemeMode mode) {
+    sharedPreferences.setString(
+        "theme", mode == ThemeMode.dark ? "dark" : "light");
   }
-  static ThemeMode getTheme(){
-    String saved = sharedPreferences.getString("theme")??"light";
-    if(saved == "dark"){
+
+  static ThemeMode getTheme() {
+    String saved = sharedPreferences.getString("theme") ?? "light";
+    if (saved == "dark") {
       return ThemeMode.dark;
-    }else{
+    } else {
       return ThemeMode.light;
     }
   }
