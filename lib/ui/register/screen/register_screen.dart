@@ -48,9 +48,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     selectedLanguage = context.locale.languageCode;
     return Scaffold(
-     appBar: AppBar(
-       title: Text("Register"),
-     ),
+      appBar: AppBar(
+        title: Text("Register"),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: SafeArea(
@@ -65,15 +65,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   CustomField(
                       validation: (value) {
-                        if(value == null || value.isEmpty){
+                        if (value == null || value.isEmpty) {
                           return "Name shouldn't be empty";
                         }
                       },
                       hint: "name".tr(),
                       prefix: AssetsManager.person,
-                      controller: nameController
+                      controller: nameController),
+                  SizedBox(
+                    height: 16,
                   ),
-                  SizedBox(height: 16,),
                   CustomField(
                     hint: "email".tr(),
                     prefix: AssetsManager.email,
@@ -113,7 +114,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   CustomField(
                     controller: rePasswordController,
                     validation: (value) {
-                      if(value != passwordController.text){
+                      if (value != passwordController.text) {
                         return "Passwords don't match";
                       }
                       return null;
@@ -134,22 +135,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           createAccount();
                         }
                       }),
-                  SizedBox(height: 24,),
+                  SizedBox(
+                    height: 24,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                        Text("alreadyHaveAcc".tr(),style: Theme.of(context).textTheme.bodyMedium,),
+                      Text(
+                        "alreadyHaveAcc".tr(),
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
                       InkWell(
                         onTap: () {
                           Navigator.pushNamed(context, RoutesManager.register);
                         },
-                        child: Text("login".tr(),style:Theme.of(context).textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.w500
-                        ) ,),
+                        child: Text(
+                          "login".tr(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall
+                              ?.copyWith(fontWeight: FontWeight.w500),
+                        ),
                       )
                     ],
                   ),
-                  SizedBox(height: 24,),
+                  SizedBox(
+                    height: 24,
+                  ),
                   CustomSwitch(
                       selected: selectedLanguage,
                       icon2: AssetsManager.eg,
@@ -158,15 +170,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         setState(() {
                           selectedLanguage = value;
                         });
-                        if(selectedLanguage=="ar"){
+                        if (selectedLanguage == "ar") {
                           context.setLocale(Locale("ar"));
-                        }else{
+                        } else {
                           context.setLocale(Locale("en"));
                         }
                       },
-                      values: ["en","ar"]
-                  )
-              
+                      values: ["en", "ar"])
                 ],
               ),
             ),
@@ -176,23 +186,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  createAccount()async{
-   try{
-     var credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-         email: emailController.text,
-         password: passwordController.text
-     );
-     print("Done");
-   } on FirebaseAuthException catch(e){
-     if (e.code == 'weak-password') {
-    print('The password provided is too weak.');
-    } else if (e.code == 'email-already-in-use') {
-       print('The account already exists for that email.');
-     }
-   }catch(error){
-    print(error);
-   }
-
+  createAccount() async {
+    try {
+      var credential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: emailController.text, password: passwordController.text);
+      print("Done");
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (error) {
+      print(error);
+    }
   }
-
 }

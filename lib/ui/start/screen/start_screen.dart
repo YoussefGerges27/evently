@@ -7,6 +7,7 @@ import 'package:evently_c16/core/reusable_components/CustomSwitch.dart';
 import 'package:evently_c16/core/source/remote/PrefsManager.dart';
 import 'package:evently_c16/main.dart';
 import 'package:evently_c16/providers/ThemeProvider.dart';
+import 'package:evently_c16/ui/onboarding/widgets/onboarding_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -22,24 +23,27 @@ class StartScreen extends StatefulWidget {
 }
 
 class _StartScreenState extends State<StartScreen> {
+  bool onboardingFlag = false;
   String selectedLanguage = "en";
   String selectedTheme = "light";
   @override
   Widget build(BuildContext context) {
     selectedLanguage = context.locale.languageCode;
     ThemeProvider provider = Provider.of<ThemeProvider>(context);
-    if(provider.mode==ThemeMode.dark){
+    if (provider.mode == ThemeMode.dark) {
       selectedTheme = "dark";
-    }else{
+    } else {
       selectedTheme = "light";
     }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         centerTitle: true,
-        title: Image.asset(AssetsManager.logoBar,
+        title: Image.asset(
+          AssetsManager.logoBar,
           height: 50,
-          fit: BoxFit.fitHeight,),
+          fit: BoxFit.fitHeight,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -48,22 +52,35 @@ class _StartScreenState extends State<StartScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset(AssetsManager.startLight),
-              SizedBox(height: 28,),
-              Text("startTitle".tr(),style: TextStyle (
-                color:ColorsManager.primaryColor,
-                fontWeight: FontWeight.w700,
-                fontSize: 20
-              ),),
-              SizedBox(height: 28,),
-              Text("startDesc".tr(),style: Theme.of(context).textTheme.bodyMedium,),
-              SizedBox(height: 28,),
+              SizedBox(
+                height: 28,
+              ),
+              Text(
+                "startTitle".tr(),
+                style: TextStyle(
+                    color: ColorsManager.primaryColor,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20),
+              ),
+              SizedBox(
+                height: 28,
+              ),
+              Text(
+                "startDesc".tr(),
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              SizedBox(
+                height: 28,
+              ),
               Row(
                 children: [
-                  Text("l".tr(),style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    color: ColorsManager.primaryColor
-                  ),),
+                  Text(
+                    "l".tr(),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: ColorsManager.primaryColor),
+                  ),
                   Spacer(),
                   CustomSwitch(
                       selected: selectedLanguage,
@@ -73,53 +90,65 @@ class _StartScreenState extends State<StartScreen> {
                         setState(() {
                           selectedLanguage = value;
                         });
-                        if(selectedLanguage=="ar"){
+                        if (selectedLanguage == "ar") {
                           context.setLocale(Locale("ar"));
-                        }else{
+                        } else {
                           context.setLocale(Locale("en"));
                         }
                       },
-                      values: ["en","ar"]
-                  )
+                      values: ["en", "ar"])
                 ],
               ),
-              SizedBox(height: 16,),
+              SizedBox(
+                height: 16,
+              ),
               Row(
                 children: [
-                  Text("theme".tr(),style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: ColorsManager.primaryColor
-                  ),),
+                  Text(
+                    "theme".tr(),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: ColorsManager.primaryColor),
+                  ),
                   Spacer(),
                   CustomSwitch(
-                      isColored: true,
-                      selected: selectedTheme,
-                      icon2: AssetsManager.moon,
-                      icon1: AssetsManager.sun,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedTheme = value;
-                          if(selectedTheme == "dark"){
-                            provider.changeTheme(ThemeMode.dark);
-                            PrefsManager.setTheme(ThemeMode.dark);
-                          }else{
-                            provider.changeTheme(ThemeMode.light);
-                            PrefsManager.setTheme(ThemeMode.light);
-                          }
-                        });
-                      },
-                      values: ["light","dark"]
-                  )
+                    isColored: true,
+                    selected: selectedTheme,
+                    icon2: AssetsManager.moon,
+                    icon1: AssetsManager.sun,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedTheme = value;
+                        if (selectedTheme == "dark") {
+                          provider.changeTheme(ThemeMode.dark);
+                          PrefsManager.setTheme(ThemeMode.dark);
+                        } else {
+                          provider.changeTheme(ThemeMode.light);
+                          PrefsManager.setTheme(ThemeMode.light);
+                        }
+                      });
+                    },
+                    values: ["light", "dark"],
+                  ),
                 ],
               ),
-              SizedBox(height: 16,),
+              SizedBox(
+                height: 16,
+              ),
               CustomButton(
                 title: "letsStart".tr(),
-                onPress: (){
-                  Navigator.pushReplacementNamed(context, RoutesManager.login);
+                onPress: () {
+                  bool? onboardingFlag = PrefsManager.getOnboardingFlag();
+                  if (onboardingFlag == false) {
+                    Navigator.pushReplacementNamed(
+                        context, RoutesManager.onboarding);
+                  } else {
+                    Navigator.pushReplacementNamed(
+                        context, RoutesManager.login);
+                  }
                 },
-              )
+              ),
             ],
           ),
         ),
