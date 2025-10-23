@@ -1,4 +1,4 @@
-abstract final class AssetsManager{
+abstract final class AssetsManager {
   static const String logo = "assets/images/Logo.png";
   static const String startLight = "assets/images/being-creative.png";
   static const String startDark = "assets/images/designer-desk.png";
@@ -13,4 +13,7 @@ abstract final class AssetsManager{
   static const String forgetPass = "assets/images/forgetpass.png";
   static const String female = "assets/images/female.svg";
   static const String male = "assets/images/male.svg";
+  static const String onboarding1 = "assets/images/onboarding1.png";
+  static const String onboarding2 = "assets/images/onboarding2.png";
+  static const String onboarding3 = "assets/images/onboarding3.png";
 }

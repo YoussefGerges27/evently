@@ -20,4 +20,12 @@ class PrefsManager {
       return ThemeMode.light;
     }
   }
+
+  static setOnboardingFlag(bool onboardingFlag) {
+    sharedPreferences.setBool("onboarding", onboardingFlag);
+  }
+
+  static bool? getOnboardingFlag() {
+    return sharedPreferences.getBool("onboarding") ?? false;
+  }
 }
