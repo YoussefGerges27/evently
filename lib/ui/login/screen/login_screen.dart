@@ -1,11 +1,15 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_c16/core/resources/AppConstants.dart';
+import 'package:evently_c16/core/resources/ColorsManager.dart';
 import 'package:evently_c16/core/resources/RoutesManager.dart';
 import 'package:evently_c16/core/reusable_components/CustomButton.dart';
+import 'package:evently_c16/core/source/remote/google_auth_service.dart';
 import 'package:evently_c16/ui/register/screen/register_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../core/resources/AssetsManager.dart';
 import '../../../core/reusable_components/CustomField.dart';
@@ -21,6 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late TextEditingController emailController;
   late TextEditingController passwordController;
   String selectedLanguage = "en";
+  final auth = GoogleAuthService();
 
   @override
   void initState() {
@@ -133,7 +138,73 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: Divider(
+                        indent: 20,
+                        endIndent: 20,
+                        color: Theme.of(context).colorScheme.primary,
+                      )),
+                      Text(
+                        "Or",
+                        style:
+                            Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  color: ColorsManager.primaryColor,
+                                ),
+                      ),
+                      Expanded(
+                          child: Divider(
+                        indent: 20,
+                        endIndent: 20,
+                        color: Theme.of(context).colorScheme.primary,
+                      )),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 24,
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      final userCredential = await auth.signInWithGoogle();
+                      if (userCredential != null) {
+                        log("Signed in: ${userCredential.user?.displayName}");
+                      } else {
+                        log("Sign in cancelled or failed");
+                      }
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        border: BoxBorder.all(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        vertical: 15,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(AssetsManager.googleLogo),
+                          const SizedBox(width: 12),
+                          Text(
+                            "Login With Google",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(
+                                  fontWeight: FontWeight.w500,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
                     height: 24,
                   ),
                   CustomSwitch(
@@ -174,4 +245,41 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     }
   }
+
+  // Future<UserCredential> signInWithGoogle() async {
+  //   // Trigger the authentication flow
+  //   final GoogleSignInAccount? googleUser =
+  //       await GoogleSignIn.instance.authenticate();
+
+  //   // Obtain the auth details from the request
+  //   final GoogleSignInAuthentication googleAuth = googleUser!.authentication;
+
+  //   // Create a new credential
+  //   final credential =
+  //       GoogleAuthProvider.credential(idToken: googleAuth.idToken);
+
+  //   // Once signed in, return the UserCredential
+  //   return await FirebaseAuth.instance.signInWithCredential(credential);
+  // }
+
+  // Future<bool> signInWithGoogle() async {
+  //   try {
+  //     // Trigger the authentication flow
+  //     final GoogleSignInAccount? googleUser =
+  //         await GoogleSignIn.instance.authenticate();
+
+  //     // Obtain the auth details from the request
+  //     final GoogleSignInAuthentication googleAuth = googleUser!.authentication;
+
+  //     // Create a new credential
+  //     final credential =
+  //         GoogleAuthProvider.credential(idToken: googleAuth.idToken);
+
+  //     // Once signed in, return the UserCredential
+  //     return FirebaseAuth.instance.currentUser != null;
+  //   } catch (e) {
+  //     log(e.toString());
+  //   }
+  //   return false;
+  // }
 }
