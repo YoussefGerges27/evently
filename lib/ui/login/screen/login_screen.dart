@@ -4,7 +4,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_c16/core/resources/AppConstants.dart';
 import 'package:evently_c16/core/resources/ColorsManager.dart';
 import 'package:evently_c16/core/resources/RoutesManager.dart';
+import 'package:evently_c16/core/resources/dialog_utils.dart';
 import 'package:evently_c16/core/reusable_components/CustomButton.dart';
+import 'package:evently_c16/core/source/remote/firbase_auth_service.dart';
 import 'package:evently_c16/core/source/remote/google_auth_service.dart';
 import 'package:evently_c16/ui/register/screen/register_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,8 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    emailController = TextEditingController();
-    passwordController = TextEditingController();
+    emailController = TextEditingController(text: 'youssef@gmail.com');
+    passwordController = TextEditingController(text: '12345678');
   }
 
   @override
@@ -111,7 +113,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       title: "login".tr(),
                       onPress: () {
                         if (formKey.currentState?.validate() ?? false) {
-                          signin();
+                          FirebaseAuthService.signin(
+                            context: context,
+                            emailController: emailController,
+                            passwordController: passwordController,
+                          );
                         }
                       }),
                   SizedBox(
@@ -172,6 +178,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       final userCredential = await auth.signInWithGoogle();
                       if (userCredential != null) {
                         log("Signed in: ${userCredential.user?.displayName}");
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          RoutesManager.homeScreen,
+                          (route) => false,
+                        );
                       } else {
                         log("Sign in cancelled or failed");
                       }
@@ -231,55 +242,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
-  signin() async {
-    try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
-      print(credential.user!.uid);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      }
-    }
-  }
-
-  // Future<UserCredential> signInWithGoogle() async {
-  //   // Trigger the authentication flow
-  //   final GoogleSignInAccount? googleUser =
-  //       await GoogleSignIn.instance.authenticate();
-
-  //   // Obtain the auth details from the request
-  //   final GoogleSignInAuthentication googleAuth = googleUser!.authentication;
-
-  //   // Create a new credential
-  //   final credential =
-  //       GoogleAuthProvider.credential(idToken: googleAuth.idToken);
-
-  //   // Once signed in, return the UserCredential
-  //   return await FirebaseAuth.instance.signInWithCredential(credential);
-  // }
-
-  // Future<bool> signInWithGoogle() async {
-  //   try {
-  //     // Trigger the authentication flow
-  //     final GoogleSignInAccount? googleUser =
-  //         await GoogleSignIn.instance.authenticate();
-
-  //     // Obtain the auth details from the request
-  //     final GoogleSignInAuthentication googleAuth = googleUser!.authentication;
-
-  //     // Create a new credential
-  //     final credential =
-  //         GoogleAuthProvider.credential(idToken: googleAuth.idToken);
-
-  //     // Once signed in, return the UserCredential
-  //     return FirebaseAuth.instance.currentUser != null;
-  //   } catch (e) {
-  //     log(e.toString());
-  //   }
-  //   return false;
-  // }
 }
