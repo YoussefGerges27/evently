@@ -1,6 +1,6 @@
 import 'package:evently_c16/core/resources/AssetsManager.dart';
 import 'package:evently_c16/core/resources/RoutesManager.dart';
-import 'package:evently_c16/core/source/remote/PrefsManager.dart';
+import 'package:evently_c16/core/source/local/PrefsManager.dart';
 import 'package:evently_c16/models/onboarding_model.dart';
 import 'package:evently_c16/ui/onboarding/widgets/onboarding_card.dart';
 import 'package:flutter/material.dart';

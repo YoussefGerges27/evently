@@ -163,20 +163,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     height: 24,
                   ),
                   CustomSwitch(
-                      selected: selectedLanguage,
-                      icon2: AssetsManager.eg,
-                      icon1: AssetsManager.us,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedLanguage = value;
-                        });
-                        if (selectedLanguage == "ar") {
-                          context.setLocale(Locale("ar"));
-                        } else {
-                          context.setLocale(Locale("en"));
-                        }
-                      },
-                      values: ["en", "ar"])
+                    selected: selectedLanguage,
+                    icon2: AssetsManager.eg,
+                    icon1: AssetsManager.us,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedLanguage = value;
+                      });
+                      if (selectedLanguage == "ar") {
+                        context.setLocale(Locale("ar"));
+                      } else {
+                        context.setLocale(Locale("en"));
+                      }
+                    },
+                    values: ["en", "ar"],
+                  ),
                 ],
               ),
             ),

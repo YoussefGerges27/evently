@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_c16/core/resources/AppStyle.dart';
 import 'package:evently_c16/core/resources/RoutesManager.dart';
-import 'package:evently_c16/core/source/remote/PrefsManager.dart';
+import 'package:evently_c16/core/source/local/PrefsManager.dart';
 import 'package:evently_c16/providers/ThemeProvider.dart';
 import 'package:evently_c16/ui/login/screen/login_screen.dart';
 import 'package:evently_c16/ui/onboarding/screen/onboarding_screen.dart';
