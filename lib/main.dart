@@ -3,6 +3,7 @@ import 'package:evently_c16/core/resources/AppStyle.dart';
 import 'package:evently_c16/core/resources/RoutesManager.dart';
 import 'package:evently_c16/core/source/local/PrefsManager.dart';
 import 'package:evently_c16/providers/ThemeProvider.dart';
+import 'package:evently_c16/ui/home/screen/home_screen.dart';
 import 'package:evently_c16/ui/login/screen/login_screen.dart';
 import 'package:evently_c16/ui/onboarding/screen/onboarding_screen.dart';
 import 'package:evently_c16/ui/register/screen/register_screen.dart';
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
         RoutesManager.login: (_) => LoginScreen(),
         RoutesManager.register: (_) => RegisterScreen(),
         RoutesManager.onboarding: (_) => OnboardingScreen(),
+        RoutesManager.homeScreen: (_) => HomeScreen(),
       },
     );
   }

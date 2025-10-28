@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_c16/core/resources/AppConstants.dart';
 import 'package:evently_c16/core/resources/RoutesManager.dart';
+import 'package:evently_c16/core/resources/dialog_utils.dart';
 import 'package:evently_c16/core/reusable_components/CustomButton.dart';
+import 'package:evently_c16/core/source/remote/firbase_auth_service.dart';
 import 'package:evently_c16/ui/register/screen/register_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -130,9 +134,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       title: "createAcc".tr(),
                       onPress: () {
                         if (formKey.currentState?.validate() ?? false) {
-                          print("Email : ${emailController.text}");
-                          print("Password : ${passwordController.text}");
-                          createAccount();
+                          log("Email : ${emailController.text}");
+                          log("Password : ${passwordController.text}");
+                          FirebaseAuthService.createAccount(
+                              context: context,
+                              emailController: emailController,
+                              passwordController: passwordController);
                         }
                       }),
                   SizedBox(
@@ -147,7 +154,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, RoutesManager.register);
+                          Navigator.pop(context);
                         },
                         child: Text(
                           "login".tr(),
@@ -185,22 +192,5 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
-  }
-
-  createAccount() async {
-    try {
-      var credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: emailController.text, password: passwordController.text);
-      print("Done");
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
-    } catch (error) {
-      print(error);
-    }
   }
 }
