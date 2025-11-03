@@ -137,9 +137,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           log("Email : ${emailController.text}");
                           log("Password : ${passwordController.text}");
                           FirebaseAuthService.createAccount(
-                              context: context,
-                              emailController: emailController,
-                              passwordController: passwordController);
+                            context: context,
+                            emailController: emailController,
+                            passwordController: passwordController,
+                            nameController: nameController,
+                          );
                         }
                       }),
                   SizedBox(

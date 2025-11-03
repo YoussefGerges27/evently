@@ -2,20 +2,32 @@ import 'dart:developer';
 
 import 'package:evently_c16/core/resources/RoutesManager.dart';
 import 'package:evently_c16/core/resources/dialog_utils.dart';
+import 'package:evently_c16/core/source/remote/firestore_service.dart';
+import 'package:evently_c16/models/my_user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class FirebaseAuthService {
+//! register method
   static createAccount({
     required BuildContext context,
     required TextEditingController emailController,
     required TextEditingController passwordController,
+    required TextEditingController nameController,
   }) async {
     try {
       DialogUtils.showLoadingDialog(context);
-      var credential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: emailController.text, password: passwordController.text);
+      var credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      MyUser user = MyUser(
+        id: credential.user?.uid,
+        name: nameController.text,
+        email: emailController.text,
+      );
+      FirestoreService.addUser(user);
       Navigator.pop(context);
       Navigator.pushNamedAndRemoveUntil(
         context,
@@ -60,6 +72,7 @@ class FirebaseAuthService {
     }
   }
 
+//! sign in method
   static signin({
     required BuildContext context,
     required TextEditingController emailController,
