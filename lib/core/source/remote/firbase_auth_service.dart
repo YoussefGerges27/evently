@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:evently_c16/core/resources/RoutesManager.dart';
 import 'package:evently_c16/core/resources/dialog_utils.dart';
 import 'package:evently_c16/core/source/remote/firestore_service.dart';
@@ -81,7 +80,9 @@ class FirebaseAuthService {
     try {
       DialogUtils.showLoadingDialog(context);
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text, password: passwordController.text);
+        email: emailController.text,
+        password: passwordController.text,
+      );
       Navigator.pop(context);
       Navigator.pushReplacementNamed(context, RoutesManager.homeScreen);
       log(credential.user!.email!);

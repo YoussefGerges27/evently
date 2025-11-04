@@ -4,7 +4,21 @@ import 'package:flutter/material.dart';
 class AppStyle {
   static ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: ColorsManager.lightBackgroundColor,
-    appBarTheme: AppBarTheme(
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      backgroundColor: ColorsManager.primaryColor,
+      shape: StadiumBorder(
+        side: BorderSide(
+          color: Colors.white,
+          width: 5,
+        ),
+      ),
+    ),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: ColorsManager.primaryColor,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white),
+    appBarTheme: const AppBarTheme(
       backgroundColor: Colors.transparent,
       centerTitle: true,
       titleTextStyle: TextStyle(
@@ -39,7 +53,7 @@ class AppStyle {
         color: ColorsManager.primaryColor,
       ),
     ),
-    colorScheme: ColorScheme.light(
+    colorScheme: const ColorScheme.light(
       primary: ColorsManager.primaryColor,
       background: ColorsManager.lightBackgroundColor,
       secondary: ColorsManager.blackColor,
@@ -49,7 +63,21 @@ class AppStyle {
 
   static ThemeData darkTheme = ThemeData(
     scaffoldBackgroundColor: ColorsManager.darkBackgroundColor,
-    appBarTheme: AppBarTheme(
+    floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      backgroundColor: ColorsManager.darkBackgroundColor,
+      shape: StadiumBorder(
+        side: BorderSide(
+          color: Colors.white,
+          width: 5,
+        ),
+      ),
+    ),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: ColorsManager.darkBackgroundColor,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white),
+    appBarTheme: const AppBarTheme(
         backgroundColor: Colors.transparent,
         centerTitle: true,
         titleTextStyle: TextStyle(
@@ -57,7 +85,7 @@ class AppStyle {
             fontSize: 22,
             color: ColorsManager.primaryColor),
         iconTheme: IconThemeData(color: ColorsManager.primaryColor)),
-    colorScheme: ColorScheme.dark(
+    colorScheme: const ColorScheme.dark(
       primary: ColorsManager.primaryColor,
       background: ColorsManager.darkBackgroundColor,
       secondary: ColorsManager.darkTextColor,
