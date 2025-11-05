@@ -6,4 +6,5 @@ abstract final class RoutesManager {
   static const String onboarding = "onboarding";
   static const String homeScreen = "home-screen";
   static const String createEventScreen = "create-event-screen";
+  static const String eventDetailsScreen = "event-details-screen";
 }

@@ -4,14 +4,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_c16/core/resources/AppConstants.dart';
 import 'package:evently_c16/core/resources/ColorsManager.dart';
 import 'package:evently_c16/core/resources/RoutesManager.dart';
-import 'package:evently_c16/core/resources/dialog_utils.dart';
 import 'package:evently_c16/core/reusable_components/CustomButton.dart';
 import 'package:evently_c16/core/source/remote/firbase_auth_service.dart';
 import 'package:evently_c16/core/source/remote/google_auth_service.dart';
-import 'package:evently_c16/ui/register/screen/register_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../core/resources/AssetsManager.dart';
 import '../../../core/reusable_components/CustomField.dart';

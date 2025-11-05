@@ -1,3 +1,4 @@
+import 'package:evently_c16/core/resources/RoutesManager.dart';
 import 'package:evently_c16/core/reusable_components/CustomButton.dart';
 import 'package:evently_c16/core/source/remote/firestore_service.dart';
 import 'package:evently_c16/models/Event.dart';
@@ -15,7 +16,7 @@ class AllView extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // loading state
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -29,13 +30,21 @@ class AllView extends StatelessWidget {
         }
         List<Event> events = snapshot.data ?? [];
         return ListView.separated(
-            itemBuilder: (context, index) => EventItem(
-                  event: events[index],
-                ),
-            separatorBuilder: (context, index) => SizedBox(
-                  height: 16,
-                ),
-            itemCount: events.length);
+          itemBuilder: (context, index) => GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                RoutesManager.eventDetailsScreen,
+                arguments: events[index],
+              );
+            },
+            child: EventItem(
+              event: events[index],
+            ),
+          ),
+          separatorBuilder: (context, index) => const SizedBox(height: 16),
+          itemCount: events.length,
+        );
       },
     );
   }

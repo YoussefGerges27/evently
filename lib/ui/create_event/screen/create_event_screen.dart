@@ -66,7 +66,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                           ClipRRect(
                               borderRadius: BorderRadius.circular(16),
                               child: Image.asset(
-                                "assets/images/Book Club.png",
+                                "assets/images/Book-Club.png",
                                 fit: BoxFit.fill,
                               )),
                           ClipRRect(
@@ -326,20 +326,25 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
     if (formKey.currentState!.validate()) {
       if (selectedDate != null && selectedTime != null) {
         Event event = Event(
-            type: eventTypes[selectedTap],
-            title: titleController.text,
-            desc: descController.text,
-            dateTime: Timestamp.fromDate(DateTime(
-                selectedDate!.year,
-                selectedDate!.month,
-                selectedDate!.day,
-                selectedTime!.hour,
-                selectedTime!.minute)),
-            userId: FirebaseAuth.instance.currentUser!.uid);
+          type: eventTypes[selectedTap],
+          title: titleController.text,
+          desc: descController.text,
+          dateTime: Timestamp.fromDate(
+            DateTime(
+              selectedDate!.year,
+              selectedDate!.month,
+              selectedDate!.day,
+              selectedTime!.hour,
+              selectedTime!.minute,
+            ),
+          ),
+          userId: FirebaseAuth.instance.currentUser!.uid,
+        );
         DialogUtils.showLoadingDialog(context);
         await FirestoreService.createEvent(event);
         Navigator.pop(context);
         DialogUtils.showToast("Event created successfully");
+        Navigator.pop(context);
       } else {
         DialogUtils.showToast("Please choose date and time");
       }
