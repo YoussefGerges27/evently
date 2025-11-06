@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently_c16/core/resources/AppConstants.dart';
+import 'package:evently_c16/core/resources/RoutesManager.dart';
 import 'package:evently_c16/core/resources/dialog_utils.dart';
 import 'package:evently_c16/core/reusable_components/CustomButton.dart';
 import 'package:evently_c16/core/reusable_components/CustomField.dart';
@@ -12,22 +13,26 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../core/resources/ColorsManager.dart';
 
-class CreateEventScreen extends StatefulWidget {
-  const CreateEventScreen({super.key});
+class EditEventScreen extends StatefulWidget {
+  const EditEventScreen({super.key});
 
   @override
-  State<CreateEventScreen> createState() => _CreateEventScreenState();
+  State<EditEventScreen> createState() => _EditEventScreenState();
 }
 
-class _CreateEventScreenState extends State<CreateEventScreen> {
+class _EditEventScreenState extends State<EditEventScreen> {
   int selectedTap = 0;
   late TextEditingController titleController;
   late TextEditingController descController;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  late Event oldEvent;
 
   @override
   void initState() {
     // TODO: implement initState
+    // WidgetsBinding.instance.addPostFrameCallback(
+    //   (timeStamp) {},
+    // );
     super.initState();
     titleController = TextEditingController();
     descController = TextEditingController();
@@ -43,10 +48,11 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Event oldEvent = ModalRoute.of(context)!.settings.arguments as Event;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Create Event"),
+        title: Text("Edit Event"),
       ),
       body: DefaultTabController(
         length: 3,
@@ -225,18 +231,18 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                     hint: "Enter the event description",
                     controller: descController,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   Row(
                     children: [
                       SvgPicture.asset("assets/images/Calendar_Days.svg"),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Text("Event Date",
                           style: Theme.of(context).textTheme.bodyMedium),
-                      Spacer(),
+                      const Spacer(),
                       InkWell(
                         onTap: () {
                           chooseDate();
@@ -252,18 +258,18 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                       )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   Row(
                     children: [
                       SvgPicture.asset("assets/images/Clock.svg"),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Text("Event Time",
                           style: Theme.of(context).textTheme.bodyMedium),
-                      Spacer(),
+                      const Spacer(),
                       InkWell(
                         onTap: () {
                           chooseTime();
@@ -279,14 +285,15 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                       )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   CustomButton(
-                      title: "Add Event",
-                      onPress: () {
-                        createNewEvent();
-                      })
+                    title: "Edit Event",
+                    onPress: () {
+                      createNewEvent(oldEvent);
+                    },
+                  ),
                 ],
               ),
             ),
@@ -322,7 +329,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
     }
   }
 
-  createNewEvent() async {
+  createNewEvent(Event oldEvent) async {
     if (formKey.currentState!.validate()) {
       if (selectedDate != null && selectedTime != null) {
         Event event = Event(
@@ -341,10 +348,14 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
           userId: FirebaseAuth.instance.currentUser!.uid,
         );
         DialogUtils.showLoadingDialog(context);
-        await FirestoreService.createEvent(event);
+        await FirestoreService.updateEvent(oldEvent.id!, event);
         Navigator.pop(context);
         DialogUtils.showToast("Event created successfully");
-        Navigator.pop(context);
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          RoutesManager.homeScreen,
+          (route) => false,
+        );
       } else {
         DialogUtils.showToast("Please choose date and time");
       }

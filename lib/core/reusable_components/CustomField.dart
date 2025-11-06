@@ -8,20 +8,21 @@ class CustomField extends StatefulWidget {
   String? Function(String?) validation;
   TextEditingController controller;
   int maxLines;
-  CustomField(
-      {required this.validation,
-      this.maxLines = 1,
-      required this.hint,
-      this.prefix,
-      this.isPassword = false,
-      required this.controller});
+  CustomField({
+    required this.validation,
+    this.maxLines = 1,
+    required this.hint,
+    this.prefix,
+    this.isPassword = false,
+    required this.controller,
+  });
 
   @override
   State<CustomField> createState() => _CustomFieldState();
 }
 
 class _CustomFieldState extends State<CustomField> {
-  bool isObscured = false;
+  bool isObscured = true;
   @override
   Widget build(BuildContext context) {
     return TextFormField(

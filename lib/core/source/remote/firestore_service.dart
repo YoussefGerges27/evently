@@ -63,4 +63,17 @@ class FirestoreService {
     var eventList = docList.map((document) => document.data()).toList();
     return eventList;
   }
+
+  static Future<void> updateEvent(String docId, Event event) {
+    var collection = getEventCollection();
+    var docRef = collection.doc(docId);
+    event.id = docRef.id;
+    return docRef.set(event);
+  }
+
+  static Future<void> deleteEvent(String docId) {
+    var collection = getEventCollection();
+    var docRef = collection.doc(docId);
+    return docRef.delete();
+  }
 }
