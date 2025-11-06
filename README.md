@@ -25,3 +25,8 @@ https://github.com/user-attachments/assets/eda99407-d12b-47f2-9d18-c2ed286d201a
 
 https://github.com/user-attachments/assets/04856ce2-e235-4182-89e5-8ebfec1ffcc1
 
+
+## Edit Event
+
+https://github.com/user-attachments/assets/a51a00eb-5d2b-45f1-b74f-5ed7e332ec31
+
