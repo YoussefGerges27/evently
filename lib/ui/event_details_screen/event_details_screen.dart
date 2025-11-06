@@ -1,4 +1,5 @@
 import 'package:evently_c16/core/resources/ColorsManager.dart';
+import 'package:evently_c16/core/resources/RoutesManager.dart';
 import 'package:evently_c16/core/resources/dialog_utils.dart';
 import 'package:evently_c16/core/source/remote/firestore_service.dart';
 import 'package:evently_c16/models/Event.dart';
@@ -22,7 +23,13 @@ class EventDetailsScreen extends StatelessWidget {
         actions: event.userId == FirebaseAuth.instance.currentUser!.uid
             ? [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      RoutesManager.editEventScreen,
+                      arguments: event,
+                    );
+                  },
                   icon: const Icon(
                     Icons.edit,
                     color: ColorsManager.primaryColor,

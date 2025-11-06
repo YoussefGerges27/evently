@@ -67,6 +67,7 @@ class FirestoreService {
   static Future<void> updateEvent(String docId, Event event) {
     var collection = getEventCollection();
     var docRef = collection.doc(docId);
+    event.id = docRef.id;
     return docRef.set(event);
   }
 

@@ -5,6 +5,7 @@ import 'package:evently_c16/core/source/local/PrefsManager.dart';
 import 'package:evently_c16/providers/ThemeProvider.dart';
 import 'package:evently_c16/providers/user_provider.dart';
 import 'package:evently_c16/ui/create_event/screen/create_event_screen.dart';
+import 'package:evently_c16/ui/edit_event/edit_event_screen.dart';
 import 'package:evently_c16/ui/event_details_screen/event_details_screen.dart';
 import 'package:evently_c16/ui/home/screen/home_screen.dart';
 import 'package:evently_c16/ui/login/screen/login_screen.dart';
@@ -69,6 +70,7 @@ class MyApp extends StatelessWidget {
             ),
         RoutesManager.createEventScreen: (_) => CreateEventScreen(),
         RoutesManager.eventDetailsScreen: (_) => EventDetailsScreen(),
+        RoutesManager.editEventScreen: (_) => EditEventScreen(),
       },
     );
   }
