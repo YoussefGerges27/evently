@@ -30,3 +30,9 @@ https://github.com/user-attachments/assets/04856ce2-e235-4182-89e5-8ebfec1ffcc1
 
 https://github.com/user-attachments/assets/a51a00eb-5d2b-45f1-b74f-5ed7e332ec31
 
+
+
+## Delete Event
+
+https://github.com/user-attachments/assets/6c88dc17-94f7-45a1-833d-a25eb4494a29
+
